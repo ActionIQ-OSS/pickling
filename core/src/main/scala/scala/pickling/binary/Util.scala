@@ -2,7 +2,7 @@ package scala.pickling.binary
 
 object UnsafeMemory {
   import sun.misc.Unsafe
-  private[pickling] val unsafeInstance = // use in place of Scala 2.11 usages of scala.concurrent.util.Unsafe.instance
+  private[pickling] val unsafe: Unsafe = // use in place of Scala 2.11 usages of scala.concurrent.util.Unsafe.instance
     classOf[sun.misc.Unsafe]
       .getDeclaredFields
       .filter(_.getType == classOf[sun.misc.Unsafe])
