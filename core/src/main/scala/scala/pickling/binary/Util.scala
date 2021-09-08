@@ -2,8 +2,16 @@ package scala.pickling.binary
 
 object UnsafeMemory {
   import sun.misc.Unsafe
-  private[pickling] val unsafe: Unsafe =
-  scala.concurrent.util.Unsafe.instance
+  private[pickling] val unsafeInstance = // use in place of Scala 2.11 usages of scala.concurrent.util.Unsafe.instance
+    classOf[sun.misc.Unsafe]
+      .getDeclaredFields
+      .filter(_.getType == classOf[sun.misc.Unsafe])
+      .headOption
+      .map { field =>
+        field.setAccessible(true)
+        field.get(null).asInstanceOf[sun.misc.Unsafe]
+      }
+      .getOrElse { throw new IllegalStateException("Can't find instance of sun.misc.Unsafe") }
   private[pickling] val byteArrayOffset: Long = unsafe.arrayBaseOffset(classOf[Array[Byte]])
   private[pickling] val shortArrayOffset: Long = unsafe.arrayBaseOffset(classOf[Array[Short]])
   private[pickling] val intArrayOffset: Long = unsafe.arrayBaseOffset(classOf[Array[Int]])
