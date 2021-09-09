@@ -3,6 +3,7 @@ import scala.pickling.Defaults._
 import scala.pickling.binary._
 import java.io._
 import scala.util.Random
+import scala.pickling.pickler.AllPicklers
 
 // taken from SparkLR:
 package spark.util { final class Vector(val elements: Array[Double]) extends Serializable { override def toString = s"""Vector(${elements.mkString(", ")})""" } }
@@ -11,7 +12,7 @@ import spark.util.Vector
 final case class DataPoint(x: Vector, y: Double) extends Serializable
 
 trait SparkLRBenchmark extends scala.pickling.testing.PicklingBenchmark {
-  val data = {
+  val data: ArrayBuffer[DataPoint] = {
     def generatePoint(i: Int) = {
       val y = if (i % 2 == 0) -1 else 1
       val x = {

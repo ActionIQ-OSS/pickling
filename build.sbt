@@ -30,6 +30,8 @@ def commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("snapshots"),
   resolvers += Resolver.sonatypeRepo("releases"),
   scalacOptions ++= Seq("-feature"),
+  // TODO mitesh: REMOVE!
+  scalacOptions ++= Seq("-Xlog-implicits"),
   parallelExecution in Test := false, // hello, reflection sync!!
   publishMavenStyle in ThisBuild := true,
   publishArtifact in Test := false,
